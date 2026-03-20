@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Description>Optional static-file server (Kestrel) for PhotinoX apps: local wwwroot, CORS/ESM-friendly hosting. 
+Maintained fork of Photino.NET.Server.</Description>
+    <RootNamespace>Photino.NET.Server</RootNamespace>
+    <Version>4.1.0</Version>
+  </PropertyGroup>
+
+</Project>

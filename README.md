@@ -1,19 +1,52 @@
-# Build native, cross-platform desktop apps
+# PhotinoX.Server
 
-Photino is a lightweight open-source framework for building native,  
-cross-platform desktop applications with Web UI technology.
+[![NuGet Version](https://img.shields.io/nuget/v/PhotinoX.Server.svg)](https://www.nuget.org/packages/PhotinoX.Server)
+[![Build](https://github.com/ivanvoyager/PhotinoX.Server/actions/workflows/build.yml/badge.svg)](https://github.com/ivanvoyager/PhotinoX.Server/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/ivanvoyager/PhotinoX.Server?label=license)](https://github.com/ivanvoyager/PhotinoX.Server/blob/master/LICENSE)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/PhotinoX.Server.svg)](https://www.nuget.org/packages/PhotinoX.Server)
 
-Photino enables developers to use fast, natively compiled languages like C#, C++, Java and more. Use your favorite development frameworks like .NET 6, and build desktop apps with Web UI frameworks, like Blazor, React, Angular, Vue, etc.!
+Optional static-file server (Kestrel) for **PhotinoX** apps.  
+Use it to serve local `wwwroot` and ESM modules without browser restrictions (CORS, file://).  
+Useful when JavaScript modules cannot be loaded directly from disk.
 
-Photino uses the OSs built-in WebKit-based browser control for Windows, macOS and Linux.
-Photino is the lightest cross-platform framework. Compared to Electron, a Photino app is up to 110 times smaller! And it uses far less system memory too!
+> `PhotinoX.Server` is an independent fork of [tryphotino/photino.NET.Server](https://github.com/tryphotino/photino.NET.Server) under the Apache‑2.0 license and is **not affiliated** with the original project or organization.
 
-## <span>Photino.</span>NET Server
+---
 
-This project offers an optional static file server based on ASP.NET's Kestrel.
-This is useful when you experience e. g. CORS issues or can't load JS modules directly from disk.
+## Install
+```bash
+dotnet add package PhotinoX.Server
+```
+> Targets **net8.0; net9.0; net10.0**.
 
-## How to build this repo
+## Samples
 
-If you want to build this library itself, you will need:
- * Windows 10, Mac 10.15+, or Linux (Tested with Ubuntu 18.04+)
+`Photino.HelloPhotino.StaticFileServer` example is available in:
+- https://github.com/ivanvoyager/PhotinoX.Samples
+
+## Why this server?
+
+Browsers block many operations from `file://` (CORS) and refuse to load ESM modules without proper HTTP/MIME. **PhotinoX.Server** runs a minimal Kestrel host so your app serves `wwwroot` and modules over `http://127.0.0.1:<port>`, avoiding those restrictions.
+
+## Notes
+
+- Minimal defaults (CORS *, static files, default documents).
+- No MVC/SignalR — focused on local dev / packaged desktop apps.
+- Works on **Windows, macOS, Linux** as long as `PhotinoX.Native` supports the platform.
+
+## Build from source
+
+```bash
+dotnet restore Photino.NET.Server\PhotinoX.Server.csproj
+dotnet build   Photino.NET.Server\PhotinoX.Server.csproj -c Release
+dotnet pack    Photino.NET.Server\PhotinoX.Server.csproj -c Release -o artifacts
+```
+> CI: see `.github/workflows/build.yml` (build + pack + upload `.nupkg`/`.snupkg`).
+
+## Contributing
+
+Issues and PRs are welcome. Keep changes minimal and performance-conscious.
+
+## License
+
+PhotinoX.Server is licensed under **Apache‑2.0**.

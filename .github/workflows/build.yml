@@ -28,11 +28,11 @@ jobs:
       - name: upload nupkg
         uses: actions/upload-artifact@v6
         with:
-          name: photinox-blazor-nupkg
+          name: photinox-server-nupkg
           path: artifacts/*.nupkg
 
       - name: upload snupkg
         uses: actions/upload-artifact@v6
         with:
-          name: photinox-blazor-snupkg
+          name: photinox-server-snupkg
           path: artifacts/*.snupkg

@@ -1,9 +1,5 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
-using System;
-using System.Linq;
 using System.Net.NetworkInformation;
+using Microsoft.Extensions.FileProviders;
 
 namespace Photino.NET.Server;
 
@@ -13,71 +9,77 @@ namespace Photino.NET.Server;
 /// </summary>
 public class PhotinoServer
 {
-    public static WebApplication CreateStaticFileServer(
-        string[] args,
-        out string baseUrl)
-    {
-        return CreateStaticFileServer(
-            args,
-            startPort: 8000,
-            portRange: 100,
-            webRootFolder: "wwwroot",
-            out baseUrl);
-    }
+    public static WebApplication CreateStaticFileServer(string[] args, out string baseUrl) =>
+        CreateStaticFileServer(args, startPort: 8000, portRange: 100, webRootFolder: "wwwroot", out baseUrl);
+
+    public static WebApplication CreateStaticFileServer(string[] args, int startPort, int portRange, string webRootFolder, out string baseUrl) =>
+        CreateStaticFileServer(args, startPort, portRange, webRootFolder, enableSpaFallback: false, spaIndexFile: "index.html", out baseUrl);
 
     public static WebApplication CreateStaticFileServer(
         string[] args,
         int startPort,
         int portRange,
         string webRootFolder,
+        bool enableSpaFallback,
+        string spaIndexFile,
         out string baseUrl)
     {
-        //This will create the web root folder on disk if it doesn't exist
-        var builder = WebApplication
-            .CreateBuilder(new WebApplicationOptions()
-            {
-                Args = args,
-                WebRootPath = webRootFolder
-            });
+        // Ensure web root exists on disk
+        Directory.CreateDirectory(webRootFolder);
 
-        //Try to read files from the embedded resources - from a slightly different path, prefixed with Resources/
-        var manifestEmbeddedFileProvider =
-            new ManifestEmbeddedFileProvider(
-                System.Reflection.Assembly.GetEntryAssembly(),
-                $"Resources/{webRootFolder}");
+        var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+        {
+            Args = args,
+            WebRootPath = webRootFolder
+        });
+
+        // Try to read files from embedded resources: Resources/{webRootFolder}
+        var assembly = System.Reflection.Assembly.GetEntryAssembly() ?? System.Reflection.Assembly.GetExecutingAssembly();
+        var manifestEmbeddedFileProvider = new ManifestEmbeddedFileProvider(assembly, $"Resources/{webRootFolder.TrimStart('/', '\\')}");
 
         var physicalFileProvider = builder.Environment.WebRootFileProvider;
 
-        //Try to read from disk first, if not found, try to read from embedded resources.
-        CompositeFileProvider compositeWebProvider
-            = new(physicalFileProvider, manifestEmbeddedFileProvider);
+        // Prefer disk; fallback to embedded resources
+        CompositeFileProvider compositeWebProvider =
+            new(physicalFileProvider, manifestEmbeddedFileProvider);
 
         builder.Environment.WebRootFileProvider = compositeWebProvider;
 
+        // Pick a free port
         int port = startPort;
+        int endPort = startPort + portRange;
 
-        // Try ports until available port is found
-        while (IPGlobalProperties
-            .GetIPGlobalProperties()
-            .GetActiveTcpListeners()
-            .Any(x => x.Port == port))
+        var ip = IPGlobalProperties.GetIPGlobalProperties();
+        while (ip.GetActiveTcpListeners().Any(x => x.Port == port))
         {
-            if (port > port + portRange)
-                throw new SystemException($"Couldn't find open port within range {port - portRange} - {port}.");
             port++;
+            if (port > endPort)
+                throw new SystemException($"Couldn't find open port within range {startPort}..{endPort}.");
         }
 
         baseUrl = $"http://localhost:{port}";
-
         builder.WebHost.UseUrls(baseUrl);
 
-        WebApplication app = builder.Build();
+        var app = builder.Build();
         app.UseDefaultFiles();
-        app.UseStaticFiles(new StaticFileOptions
+        app.UseStaticFiles();
+
+        // Optional SPA fallback: only if enabled AND index exists in composite provider
+        if (enableSpaFallback)
         {
-            DefaultContentType = "text/plain"
-        });
+            spaIndexFile = string.IsNullOrWhiteSpace(spaIndexFile) ? "index.html" : spaIndexFile.TrimStart('/', '\\');
+            if (IndexExists(compositeWebProvider, spaIndexFile))
+            {
+                app.MapFallbackToFile(spaIndexFile);
+            }
+        }
 
         return app;
+    }
+
+    private static bool IndexExists(IFileProvider provider, string spaIndexFile)
+    {
+        var file = provider.GetFileInfo(spaIndexFile);
+        return file is { Exists: true, IsDirectory: false };
     }
 }

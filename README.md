@@ -9,7 +9,7 @@ Optional static-file server (Kestrel) for **PhotinoX** apps.
 Use it to serve local `wwwroot` and ESM modules without browser restrictions (CORS, file://).  
 Useful when JavaScript modules cannot be loaded directly from disk.
 
-> `PhotinoX.Server` is an independent fork of [tryphotino/photino.NET.Server](https://github.com/tryphotino/photino.NET.Server) under the Apache‑2.0 license and is **not affiliated** with the original project or organization.
+> **Note:** `PhotinoX.Server` is an independent fork of [tryphotino/photino.NET.Server](https://github.com/tryphotino/photino.NET.Server) under the Apache‑2.0 license and is **not affiliated** with the original project or organization.
 
 ---
 
@@ -21,7 +21,6 @@ dotnet add package PhotinoX.Server
 
 ## Samples
 
-`Photino.HelloPhotino.StaticFileServer` example is available in:
 - https://github.com/ivanvoyager/PhotinoX.Samples
 
 ## Why this server?
@@ -45,7 +44,7 @@ dotnet pack    Photino.NET.Server\PhotinoX.Server.csproj -c Release -o artifacts
 
 ## Contributing
 
-Issues and PRs are welcome. Keep changes minimal and performance-conscious.
+Issues and PRs are welcome. Keep PRs focused, minimal, and consistent with the rest of PhotinoX.
 
 ## License
 

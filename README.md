@@ -11,6 +11,13 @@ Useful when JavaScript modules cannot be loaded directly from disk.
 
 > **Note:** `PhotinoX.Server` is an independent fork of [tryphotino/photino.NET.Server](https://github.com/tryphotino/photino.NET.Server) under the Apache‑2.0 license and is **not affiliated** with the original project or organization.
 
+## Core (ecosystem)
+
+- [**PhotinoX**](https://github.com/ivanvoyager/PhotinoX) - .NET wrapper around the native layer.
+- [**PhotinoX.Native**](https://github.com/ivanvoyager/PhotinoX.Native) - native binaries for Windows/macOS/Linux.
+- [**PhotinoX.Blazor**](https://github.com/ivanvoyager/PhotinoX.Blazor) - Blazor integration for native desktop apps.
+- [**PhotinoX.Samples**](https://github.com/ivanvoyager/PhotinoX.Samples) - sample projects showcasing common scenarios.
+
 ---
 
 ## Install
@@ -40,7 +47,7 @@ dotnet restore Photino.NET.Server\PhotinoX.Server.csproj
 dotnet build   Photino.NET.Server\PhotinoX.Server.csproj -c Release
 dotnet pack    Photino.NET.Server\PhotinoX.Server.csproj -c Release -o artifacts
 ```
-> CI: see `.github/workflows/build.yml` (build + pack + upload `.nupkg`/`.snupkg`).
+> CI: see [`.github/workflows/build.yml`](https://github.com/ivanvoyager/PhotinoX.Server/blob/master/.github/workflows/build.yml) (build + pack + upload `.nupkg`/`.snupkg`).
 
 ## Contributing
 

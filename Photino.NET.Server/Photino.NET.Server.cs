@@ -1,4 +1,5 @@
-using System.Net.NetworkInformation;
+using System.Net;
+using System.Net.Sockets;
 using Microsoft.Extensions.FileProviders;
 
 namespace Photino.NET.Server;
@@ -9,11 +10,15 @@ namespace Photino.NET.Server;
 /// </summary>
 public class PhotinoServer
 {
+    public const string DefaultWebRoot = "wwwroot";
+    public const string DefaultSpaIndex = "index.html";
+    public const string EmbeddedResourcePrefix = "Resources";
+
     public static WebApplication CreateStaticFileServer(string[] args, out string baseUrl) =>
-        CreateStaticFileServer(args, startPort: 8000, portRange: 100, webRootFolder: "wwwroot", out baseUrl);
+        CreateStaticFileServer(args, startPort: 8000, portRange: 100, webRootFolder: DefaultWebRoot, out baseUrl);
 
     public static WebApplication CreateStaticFileServer(string[] args, int startPort, int portRange, string webRootFolder, out string baseUrl) =>
-        CreateStaticFileServer(args, startPort, portRange, webRootFolder, enableSpaFallback: false, spaIndexFile: "index.html", out baseUrl);
+        CreateStaticFileServer(args, startPort, portRange, webRootFolder, enableSpaFallback: false, spaIndexFile: DefaultSpaIndex, out baseUrl);
 
     public static WebApplication CreateStaticFileServer(
         string[] args,
@@ -24,6 +29,9 @@ public class PhotinoServer
         string spaIndexFile,
         out string baseUrl)
     {
+        ArgumentNullException.ThrowIfNull(args);
+        ArgumentException.ThrowIfNullOrWhiteSpace(webRootFolder);
+
         // Ensure web root exists on disk
         Directory.CreateDirectory(webRootFolder);
 
@@ -35,27 +43,17 @@ public class PhotinoServer
 
         // Try to read files from embedded resources: Resources/{webRootFolder}
         var assembly = System.Reflection.Assembly.GetEntryAssembly() ?? System.Reflection.Assembly.GetExecutingAssembly();
-        var manifestEmbeddedFileProvider = new ManifestEmbeddedFileProvider(assembly, $"Resources/{webRootFolder.TrimStart('/', '\\')}");
+        var manifestEmbeddedFileProvider = new ManifestEmbeddedFileProvider(assembly, $"{EmbeddedResourcePrefix}/{webRootFolder.TrimStart('/', '\\')}");
 
         var physicalFileProvider = builder.Environment.WebRootFileProvider;
 
         // Prefer disk; fallback to embedded resources
-        CompositeFileProvider compositeWebProvider =
-            new(physicalFileProvider, manifestEmbeddedFileProvider);
+        CompositeFileProvider compositeWebProvider = new(physicalFileProvider, manifestEmbeddedFileProvider);
 
         builder.Environment.WebRootFileProvider = compositeWebProvider;
 
         // Pick a free port
-        int port = startPort;
-        int endPort = startPort + portRange;
-
-        var ip = IPGlobalProperties.GetIPGlobalProperties();
-        while (ip.GetActiveTcpListeners().Any(x => x.Port == port))
-        {
-            port++;
-            if (port > endPort)
-                throw new SystemException($"Couldn't find open port within range {startPort}..{endPort}.");
-        }
+        int port = FindFreePort(startPort, portRange);
 
         baseUrl = $"http://localhost:{port}";
         builder.WebHost.UseUrls(baseUrl);
@@ -67,7 +65,7 @@ public class PhotinoServer
         // Optional SPA fallback: only if enabled AND index exists in composite provider
         if (enableSpaFallback)
         {
-            spaIndexFile = string.IsNullOrWhiteSpace(spaIndexFile) ? "index.html" : spaIndexFile.TrimStart('/', '\\');
+            spaIndexFile = string.IsNullOrWhiteSpace(spaIndexFile) ? DefaultSpaIndex : spaIndexFile.TrimStart('/', '\\');
             if (IndexExists(compositeWebProvider, spaIndexFile))
             {
                 app.MapFallbackToFile(spaIndexFile);
@@ -77,7 +75,27 @@ public class PhotinoServer
         return app;
     }
 
-    private static bool IndexExists(IFileProvider provider, string spaIndexFile)
+    private static int FindFreePort(int startPort, int portRange)
+    {
+        int endPort = startPort + portRange;
+        for (int port = startPort; port <= endPort; port++)
+        {
+            try
+            {
+                using var listener = new TcpListener(IPAddress.Loopback, port);
+                listener.Start();
+                listener.Stop();
+                return port;
+            }
+            catch (SocketException)
+            {
+                continue;
+            }
+        }
+        throw new IOException($"No free port in range {startPort}..{endPort}");
+    }
+
+    private static bool IndexExists(CompositeFileProvider provider, string spaIndexFile)
     {
         var file = provider.GetFileInfo(spaIndexFile);
         return file is { Exists: true, IsDirectory: false };

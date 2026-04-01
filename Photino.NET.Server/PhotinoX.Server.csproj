@@ -8,7 +8,7 @@
     <Description>Optional static-file server (Kestrel) for PhotinoX apps: local wwwroot, CORS/ESM-friendly hosting. 
 Maintained fork of Photino.NET.Server.</Description>
     <RootNamespace>Photino.NET.Server</RootNamespace>
-    <VersionPrefix>4.1.1</VersionPrefix>
+    <VersionPrefix>4.2.0</VersionPrefix>
   </PropertyGroup>
 
 </Project>

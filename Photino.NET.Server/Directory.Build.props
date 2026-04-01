@@ -1,5 +1,5 @@
 <Project>
-	<!-- NuGet -->
+	<!-- Package metadata -->
 	<PropertyGroup>
 		<Authors>ivanvoyager, TryPhotino</Authors>
 		<Company>ivanvoyager</Company>

@@ -32,13 +32,15 @@ dotnet add package PhotinoX.Server
 
 ## Why this server?
 
-Browsers block many operations from `file://` (CORS) and refuse to load ESM modules without proper HTTP/MIME. **PhotinoX.Server** runs a minimal Kestrel host so your app serves `wwwroot` and modules over `http://127.0.0.1:<port>`, avoiding those restrictions.
+Browsers block many operations from `file://` (CORS) and refuse to load ESM modules without proper HTTP/MIME. **PhotinoX.Server** runs a minimal Kestrel host so your app serves `wwwroot` and modules over `http://localhost:<port>`, avoiding those restrictions.
+
+It can serve files from the physical web root and fall back to embedded resources under `Resources/<webRootFolder>`.
 
 ## Notes
 
-- Minimal defaults (CORS *, static files, default documents).
+- Minimal defaults: static files, default documents, and optional SPA fallback.
 - No MVC/SignalR — focused on local dev / packaged desktop apps.
-- Works on **Windows, macOS, Linux** as long as `PhotinoX.Native` supports the platform.
+- Works on **Windows, macOS, Linux** with supported .NET runtimes.
 
 ## Build from source
 

@@ -15,7 +15,8 @@ Useful when JavaScript modules cannot be loaded directly from disk.
 
 ## Core (ecosystem)
 
-- [**PhotinoX**](https://github.com/ivanvoyager/PhotinoX) - .NET wrapper around the native layer.
+- [**PhotinoX**](https://github.com/ivanvoyager/PhotinoX) - managed .NET wrapper around the native layer.
+- [**PhotinoX.App**](https://github.com/ivanvoyager/PhotinoX.App) - Application composition layer for PhotinoX desktop applications.
 - [**PhotinoX.Native**](https://github.com/ivanvoyager/PhotinoX.Native) - native binaries for Windows/macOS/Linux.
 - [**PhotinoX.Blazor**](https://github.com/ivanvoyager/PhotinoX.Blazor) - Blazor integration for native desktop apps.
 - [**PhotinoX.Samples**](https://github.com/ivanvoyager/PhotinoX.Samples) - sample projects showcasing common scenarios.

@@ -3,6 +3,7 @@
 # PhotinoX.Server
 
 [![NuGet Version](https://img.shields.io/nuget/v/PhotinoX.Server.svg)](https://www.nuget.org/packages/PhotinoX.Server)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ivanvoyager/PhotinoX.Server)
 [![Build](https://github.com/ivanvoyager/PhotinoX.Server/actions/workflows/build.yml/badge.svg)](https://github.com/ivanvoyager/PhotinoX.Server/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/ivanvoyager/PhotinoX.Server?label=license)](https://github.com/ivanvoyager/PhotinoX.Server/blob/master/LICENSE)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/PhotinoX.Server.svg)](https://www.nuget.org/packages/PhotinoX.Server)
@@ -11,12 +12,12 @@ Optional static-file server (Kestrel) for **PhotinoX** apps.
 Use it to serve local `wwwroot` and ESM modules without browser restrictions (CORS, file://).  
 Useful when JavaScript modules cannot be loaded directly from disk.
 
-> **Note:** `PhotinoX.Server` is an independent fork of [tryphotino/photino.NET.Server](https://github.com/tryphotino/photino.NET.Server) under the Apache‑2.0 license and is **not affiliated** with the original project or organization.
+> **Note:** `PhotinoX.Server` is an independent fork of [tryphotino/photino.NET.Server](https://github.com/tryphotino/photino.NET.Server) under the Apache-2.0 license and is **not affiliated** with the original project or organization.
 
 ## Core (ecosystem)
 
 - [**PhotinoX**](https://github.com/ivanvoyager/PhotinoX) - managed .NET wrapper around the native layer.
-- [**PhotinoX.App**](https://github.com/ivanvoyager/PhotinoX.App) - Application composition layer for PhotinoX desktop applications.
+- [**PhotinoX.App**](https://github.com/ivanvoyager/PhotinoX.App) - application composition layer for PhotinoX desktop applications.
 - [**PhotinoX.Native**](https://github.com/ivanvoyager/PhotinoX.Native) - native binaries for Windows/macOS/Linux.
 - [**PhotinoX.Blazor**](https://github.com/ivanvoyager/PhotinoX.Blazor) - Blazor integration for native desktop apps.
 - [**PhotinoX.Samples**](https://github.com/ivanvoyager/PhotinoX.Samples) - sample projects showcasing common scenarios.
@@ -60,4 +61,4 @@ Issues and PRs are welcome. Keep PRs focused, minimal, and consistent with the r
 
 ## License
 
-PhotinoX.Server is licensed under **Apache‑2.0**.
+PhotinoX.Server is licensed under **Apache-2.0**.

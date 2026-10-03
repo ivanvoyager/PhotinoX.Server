@@ -3,7 +3,7 @@
 # PhotinoX.Server
 
 [![NuGet Version](https://img.shields.io/nuget/v/PhotinoX.Server.svg)](https://www.nuget.org/packages/PhotinoX.Server)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ivanvoyager/PhotinoX.Server)
+[![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-blue)](https://deepwiki.com/ivanvoyager/PhotinoX.Server)
 [![Build](https://github.com/ivanvoyager/PhotinoX.Server/actions/workflows/build.yml/badge.svg)](https://github.com/ivanvoyager/PhotinoX.Server/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/ivanvoyager/PhotinoX.Server?label=license)](https://github.com/ivanvoyager/PhotinoX.Server/blob/master/LICENSE)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/PhotinoX.Server.svg)](https://www.nuget.org/packages/PhotinoX.Server)

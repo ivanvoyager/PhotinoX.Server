@@ -18,9 +18,10 @@ Useful when JavaScript modules cannot be loaded directly from disk.
 
 - [**PhotinoX**](https://github.com/ivanvoyager/PhotinoX) - managed .NET wrapper around the native layer.
 - [**PhotinoX.App**](https://github.com/ivanvoyager/PhotinoX.App) - application composition layer for PhotinoX desktop applications.
+- [**PhotinoX.Cpp**](https://github.com/ivanvoyager/PhotinoX.Cpp) - a modern cross-platform C++20 desktop application framework built on native OS WebViews.
 - [**PhotinoX.Native**](https://github.com/ivanvoyager/PhotinoX.Native) - native binaries for Windows/macOS/Linux.
-- [**PhotinoX.Blazor**](https://github.com/ivanvoyager/PhotinoX.Blazor) - Blazor integration for native desktop apps.
-- [**PhotinoX.Samples**](https://github.com/ivanvoyager/PhotinoX.Samples) - sample projects showcasing common scenarios.
+- [**PhotinoX.Blazor**](https://github.com/ivanvoyager/PhotinoX.Blazor) - Blazor integration for building native desktop applications with PhotinoX.
+- [**PhotinoX.Samples**](https://github.com/ivanvoyager/PhotinoX.Samples) - sample projects showcasing common PhotinoX scenarios.
 
 ---
 

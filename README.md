@@ -29,7 +29,7 @@ Useful when JavaScript modules cannot be loaded directly from disk.
 ```bash
 dotnet add package PhotinoX.Server
 ```
-> Targets **net8.0; net9.0; net10.0**.
+> Targets **net8.0; net9.0; net10.0; net11.0**.
 
 ## Samples
 

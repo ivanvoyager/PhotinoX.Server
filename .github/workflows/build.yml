@@ -29,7 +29,7 @@ jobs:
         run: dotnet build Photino.NET.Server\PhotinoX.Server.csproj -c Release --no-restore --nologo -warnaserror
 
       - name: Pack (nupkg + snupkg, prerelease)
-        run: dotnet pack Photino.NET.Server\PhotinoX.Server.csproj -c Release -o artifacts --nologo /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg -p:VersionSuffix="pre.${{ github.run_number }}"
+        run: dotnet pack Photino.NET.Server\PhotinoX.Server.csproj -c Release --no-build -o artifacts --nologo /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg -p:VersionSuffix="pre.${{ github.run_number }}"
 
       - name: Upload nupkg
         uses: actions/upload-artifact@v7
